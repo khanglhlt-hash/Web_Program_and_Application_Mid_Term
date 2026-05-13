@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasm vs JS: Gaussian Blur Benchmark</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WebAssembly Performance Benchmark</h1>
+            <p>Comparing C++ compiled Wasm against pure JavaScript for image processing.</p>
+        </header>
+
+        <main class="dashboard">
+            <aside class="controls">
+                <div class="control-group">
+                    <label for="imageUpload" class="upload-btn">📁 Upload Image</label>
+                    <input type="file" id="imageUpload" accept="image/png, image/jpeg" hidden>
+                    <span id="fileName">No file chosen</span>
+                </div>
+
+                <div class="control-group">
+                    <label for="kernelSize">Kernel Size (Odd >= 3): <span id="kernelValue">5</span></label>
+                    <input type="range" id="kernelSize" min="3" max="15" step="2" value="5">
+                </div>
+
+                <div class="control-group">
+                    <label for="sigma">Sigma (Blur Intensity): <span id="sigmaValue">2.0</span></label>
+                    <input type="range" id="sigma" min="0.1" max="10.0" step="0.1" value="2.0">
+                </div>
+
+                <button id="runBenchmark" class="primary-btn" disabled>🚀 Run Benchmark</button>
+
+                <div class="stats-card">
+                    <h3>Benchmark Results</h3>
+                    <div class="stat-row">
+                        <span>Wasm Time:</span>
+                        <span id="wasmTime">-- ms</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>JS Time:</span>
+                        <span id="jsTime">-- ms</span>
+                    </div>
+                    <div class="stat-row highlight">
+                        <span>Wasm Speedup:</span>
+                        <span id="speedup">-- x</span>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="visuals">
+                <div class="canvas-container">
+                    <h3>Original Image</h3>
+                    <canvas id="originalCanvas"></canvas>
+                </div>
+                <div class="results-row">
+                    <div class="canvas-container">
+                        <h3>WebAssembly Result</h3>
+                        <canvas id="wasmCanvas"></canvas>
+                    </div>
+                    <div class="canvas-container">
+                        <h3>JavaScript Result</h3>
+                        <canvas id="jsCanvas"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="js/controllers/JSController.js"></script>
+</body>
+</html>

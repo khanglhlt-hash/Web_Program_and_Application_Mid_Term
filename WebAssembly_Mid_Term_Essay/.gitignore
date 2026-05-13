@@ -1,0 +1,34 @@
+# ==========================================
+# Node.js / Backend
+# ==========================================
+# Ignore massive dependency folders
+node_modules/
+
+# Ignore environment variables (keeps your DB passwords safe!)
+.env
+.env.local
+
+# NPM logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# WebAssembly / C++ Build Artifacts
+# ==========================================
+# Note: For a production app, you usually ignore compiled binaries.
+# However, for a school midterm demo, it's often easier to commit the Wasm files 
+# so the grader doesn't have to install Emscripten to run your code.
+# If you DO want to ignore the generated files, uncomment the two lines below:
+# frontend/js/wasm_build/image_filter.js
+# frontend/js/wasm_build/image_filter.wasm
+
+# ==========================================
+# OS & Editor Junk
+# ==========================================
+# VS Code settings
+.vscode/
+
+# Mac/Windows hidden files
+.DS_Store
+Thumbs.db
