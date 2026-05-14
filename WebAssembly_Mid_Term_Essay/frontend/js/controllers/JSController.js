@@ -79,7 +79,8 @@ imageUpload.addEventListener('change', (e) => {
 });
 
 // Run the Benchmark
-runBenchmarkBtn.addEventListener('click', () => {
+runBenchmarkBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Stops any accidental page reloading
     if (!currentImageData || !wasmModuleInstance) return;
 
     // 1. Gather configuration
@@ -124,6 +125,35 @@ runBenchmarkBtn.addEventListener('click', () => {
             document.getElementById('jsTime').textContent = `${jsTimeMs.toFixed(2)} ms`;
             document.getElementById('wasmTime').textContent = `${wasmTimeMs.toFixed(2)} ms`;
             document.getElementById('speedup').textContent = `${benchmark.speedup} x`;
+
+            // --- NEW: Phase 4 Data Persistence ---
+            // 6. Send results to the backend
+            const payload = {
+                jobData: {
+                    inputImageName: fileNameDisplay.textContent,
+                    widthPx: imageWidth,
+                    heightPx: imageHeight,
+                    engine: 'COMPARISON',
+                    startedAt: new Date(Date.now() - (jsTimeMs + wasmTimeMs)).toISOString(),
+                    finishedAt: new Date().toISOString()
+                },
+                resultData: {
+                    wasmTimeMs: parseFloat(wasmTimeMs.toFixed(2)),
+                    jsTimeMs: parseFloat(jsTimeMs.toFixed(2)),
+                    speedupRatio: parseFloat(benchmark.speedup),
+                    summary: benchmark.getSummary()
+                }
+            };
+
+            fetch('http://localhost:3000/api/benchmarks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => console.log('✅ Successfully saved to database:', data))
+            .catch(err => console.error('❌ Failed to save to database:', err));
+            // --- END NEW CODE ---
             
         } catch (error) {
             console.error("Error during processing:", error);

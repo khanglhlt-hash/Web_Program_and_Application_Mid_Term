@@ -1,27 +1,25 @@
 class CanvasRenderer {
     constructor(canvasElement) {
         this.canvas = canvasElement;
-        this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
+        this.ctx = canvasElement.getContext('2d');
     }
 
-    render(data, width, height) {
-        // Snap the canvas dimensions to match the image precisely
+    render(dataArray, width, height) {
+        if (!dataArray || width === 0 || height === 0) {
+            console.error("CanvasRenderer: Invalid image data or dimensions.");
+            return;
+        }
+
+        // 1. Snap the HTML canvas size to match the exact image resolution
         this.canvas.width = width;
         this.canvas.height = height;
 
-        // Construct an ImageData object from the raw pixel array
-        const imageData = new ImageData(data, width, height);
+        // 2. Wrap the raw memory array into an official browser ImageData object
+        // The dataArray must be a Uint8ClampedArray for this to work natively
+        const imageData = new ImageData(dataArray, width, height);
 
-        // Paint the pixels onto the canvas
+        // 3. Paint the pixels to the screen
         this.ctx.putImageData(imageData, 0, 0);
-    }
-
-    // Fulfills the +download() method from your Class Diagram
-    download(filename = 'filtered_image.png') {
-        const link = document.createElement('a');
-        link.download = filename;
-        link.href = this.canvas.toDataURL('image/png');
-        link.click();
     }
 }
 
