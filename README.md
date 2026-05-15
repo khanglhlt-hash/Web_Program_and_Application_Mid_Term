@@ -59,3 +59,6 @@ The frontend provides the UI to upload images, configure the Gaussian blur, and 
   * `Session`: Tracks the user agent and IP address.
   * `FilterJob`: Stores details about the image dimensions and execution timestamps.
   * `BenchmarkResult`: Records the specific execution times (in milliseconds) and the calculated speedup ratio.
+
+## About video
+The video is contain in `.docx` and `.pdf` file, at the bottom of the report.
